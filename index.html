@@ -1,11 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lital Bamnulker | Portfolio</title>
     
-    <!-- ייבוא הפונט Oswald ו-Inter מגוגל פונטס -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -18,23 +17,39 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            /* הסתרת סמן העכבר הרגיל כדי להשתמש בסמן המותאם אישית שלנו */
             cursor: none; 
         }
 
+        /* משתני צבע למצב בהיר (ברירת מחדל) */
         :root {
-            --bg-color: #f8f9fa; /* צבע רקע ניטרלי בהיר */
-            --text-color: #1a1a1a; /* טקסט כמעט שחור */
+            --bg-color: #f8f9fa;
+            --text-color: #1a1a1a;
             --accent-color: #e9ecef;
-            --border-radius: 24px; /* פינות מעוגלות */
+            --subtitle-color: #555;
+            --card-overlay: rgba(255, 255, 255, 0.9);
+            --footer-bg: #111;
+            --footer-text: #fff;
+            --border-radius: 24px;
+        }
+
+        /* משתני צבע למצב חשוך (Dark Mode) */
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #f8f9fa;
+            --accent-color: #2a2a2a;
+            --subtitle-color: #aaa;
+            --card-overlay: rgba(30, 30, 30, 0.9);
+            --footer-bg: #0a0a0a;
+            --footer-text: #f8f9fa;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Inter', sans-serif; /* פונט קריא לטקסט רגיל */
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             scroll-behavior: smooth;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         h1, h2, h3, h4, .oswald {
@@ -43,7 +58,7 @@
         }
 
         /* =========================================
-           Custom Cursor (סמן עכבר אינטראקטיבי)
+           Custom Cursor
            ========================================= */
         .cursor-dot {
             width: 12px;
@@ -56,24 +71,46 @@
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 9999;
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            transition: width 0.2s, height 0.2s, background-color 0.4s ease;
         }
 
-        /* עיצוב הסמן כשהוא מרחף מעל לינק או כפתור */
         .cursor-hover {
             width: 40px;
             height: 40px;
-            background-color: rgba(26, 26, 26, 0.1);
+            background-color: transparent;
             border: 2px solid var(--text-color);
         }
 
         /* =========================================
-           Layout & Grid
+           Layout & Navigation
            ========================================= */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 40px;
+        }
+
+        /* כפתור החלפת מצב יום/לילה (Dark Mode Toggle) */
+        .theme-toggle {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1001;
+            width: 54px;
+            height: 54px;
+            background: var(--text-color);
+            color: var(--bg-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease, background-color 0.4s ease, color 0.4s ease;
+            user-select: none;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
         }
 
         /* תפריט המבורגר קבוע */
@@ -88,7 +125,7 @@
             background: var(--text-color);
             padding: 15px;
             border-radius: 50%;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.4s ease;
         }
 
         .hamburger-line {
@@ -98,7 +135,7 @@
             transition: all 0.3s ease;
         }
 
-        /* תפריט מסך מלא (מוסתר כברירת מחדל) */
+        /* תפריט מסך מלא */
         .fullscreen-nav {
             position: fixed;
             top: 0;
@@ -113,7 +150,7 @@
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.4s ease, background-color 0.4s ease;
         }
 
         .fullscreen-nav.active {
@@ -135,19 +172,12 @@
             color: #888;
         }
 
-        /* אנימציית ה-X של ההמבורגר */
-        .hamburger.active .hamburger-line:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-        .hamburger.active .hamburger-line:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active .hamburger-line:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
+        .hamburger.active .hamburger-line:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.active .hamburger-line:nth-child(2) { opacity: 0; }
+        .hamburger.active .hamburger-line:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
         /* =========================================
-           Hero Section (אזור הפתיחה)
+           Hero Section
            ========================================= */
         .hero {
             text-align: center;
@@ -164,11 +194,11 @@
         .hero-subtitle {
             font-size: 3.5rem;
             font-weight: 500;
-            color: #555;
+            color: var(--subtitle-color);
             margin-bottom: 40px;
+            transition: color 0.4s ease;
         }
 
-        /* תמונת הנושא המרכזית (ללא רקע, לתמונת PNG שקופה) */
         .hero-image-banner {
             width: 100%;
             max-width: 800px;
@@ -182,11 +212,10 @@
         .hero-image-banner img {
             width: 100%;
             height: auto;
-            max-height: 400px; /* מונע מהתמונה להיות ענקית מדי */
-            object-fit: contain; /* שומר על פרופורציות התמונה השקופה בלי לחתוך אותה */
+            max-height: 400px;
+            object-fit: contain;
         }
 
-        /* קישורי רשתות חברתיות תחת האודות */
         .social-links {
             display: flex;
             justify-content: center;
@@ -200,7 +229,7 @@
             text-decoration: none;
             font-size: 1.2rem;
             border-bottom: 2px solid transparent;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, color 0.4s ease;
         }
 
         .social-links a:hover {
@@ -208,7 +237,7 @@
         }
 
         /* =========================================
-           Featured Work (גריד פרויקטים)
+           Featured Work & More Projects
            ========================================= */
         .section-title {
             font-size: 3rem;
@@ -219,7 +248,7 @@
 
         .featured-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* שורה של 3 עמודות */
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
             margin-bottom: 40px;
         }
@@ -230,7 +259,7 @@
         }
 
         .project-card {
-            height: 350px; /* גובה מעודן יותר שחוסך מקום */
+            height: 350px;
             background-color: var(--accent-color);
             border-radius: var(--border-radius);
             position: relative;
@@ -239,7 +268,7 @@
             flex-direction: column;
             justify-content: flex-end;
             padding: 30px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.4s ease;
         }
 
         .project-card:hover {
@@ -259,25 +288,23 @@
         .project-info {
             position: relative;
             z-index: 2;
-            background: rgba(255, 255, 255, 0.9);
+            background: var(--card-overlay);
             padding: 20px;
             border-radius: 12px;
             backdrop-filter: blur(5px);
+            transition: background-color 0.4s ease;
         }
 
         .project-info h3 {
-            font-size: 1.5rem; /* הוקטן קצת כדי להתאים לגריד החדש */
+            font-size: 1.5rem;
             margin-bottom: 5px;
         }
 
         .project-info p {
             font-size: 0.9rem;
-            color: #555;
+            color: var(--subtitle-color);
         }
 
-        /* =========================================
-           More Projects Grid
-           ========================================= */
         .more-projects {
             padding: 40px 40px;
             max-width: 1400px;
@@ -299,8 +326,8 @@
             justify-content: center;
             font-family: 'Oswald', sans-serif;
             font-size: 1.5rem;
-            color: #888;
-            transition: transform 0.3s ease;
+            color: var(--subtitle-color);
+            transition: transform 0.3s ease, background-color 0.4s ease;
             padding: 0;
             overflow: hidden;
         }
@@ -378,6 +405,7 @@
             border-bottom: 3px solid var(--text-color);
             padding-bottom: 10px;
             display: inline-block;
+            transition: border-color 0.4s ease;
         }
 
         .cv-item {
@@ -397,14 +425,14 @@
 
         .cv-item .date {
             font-size: 0.9rem;
-            color: #666;
+            color: var(--subtitle-color);
             margin-bottom: 10px;
             font-family: 'Oswald', sans-serif;
         }
 
         .cv-item p {
             font-size: 1rem;
-            color: #444;
+            color: var(--subtitle-color);
             line-height: 1.5;
         }
 
@@ -422,7 +450,7 @@
             border-radius: 20px;
             font-size: 0.9rem;
             font-family: 'Oswald', sans-serif;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, background-color 0.4s ease, color 0.4s ease;
         }
         
         .skill-tag:hover {
@@ -439,10 +467,11 @@
         footer {
             text-align: center;
             padding: 100px 0;
-            background-color: #111;
-            color: white;
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         footer h2 {
@@ -451,11 +480,11 @@
         }
 
         footer a.email-link {
-            color: white;
+            color: var(--footer-text);
             text-decoration: none;
             font-size: 1.5rem;
             font-family: 'Oswald', sans-serif;
-            border-bottom: 2px solid white;
+            border-bottom: 2px solid var(--footer-text);
             padding-bottom: 5px;
             display: inline-block;
             margin-bottom: 30px;
@@ -468,13 +497,13 @@
         }
 
         footer .social-links a {
-            color: white;
+            color: var(--footer-text);
             font-size: 1.2rem;
             border-bottom: 2px solid transparent;
         }
 
         footer .social-links a:hover {
-            border-color: white;
+            border-color: var(--footer-text);
         }
 
         /* =========================================
@@ -485,21 +514,24 @@
             .hero-subtitle { font-size: 2.2rem; }
             .fullscreen-nav a { font-size: 2.5rem; }
             .hero-image-banner img { max-height: 200px; }
-            .featured-grid { grid-template-columns: 1fr; } /* עמודה אחת בפרויקטים במובייל */
+            .featured-grid { grid-template-columns: 1fr; } 
             .project-card { height: 300px; }
             .grid-container { grid-template-columns: 1fr; }
             footer h2 { font-size: 2.5rem; }
             
-            /* במובייל מבטלים את סמן העכבר המיוחד כי יש מגע (טאצ') */
             * { cursor: auto; }
             .cursor-dot { display: none; }
+            .theme-toggle { top: 20px; left: 20px; width: 45px; height: 45px; font-size: 1.2rem; }
+            .hamburger { top: 20px; right: 20px; }
         }
     </style>
-</head>
-<body>
-
     <!-- הסמן המותאם אישית שלנו -->
     <div class="cursor-dot" id="cursor"></div>
+
+    <!-- כפתור מעבר מצב יום/לילה -->
+    <div class="theme-toggle hover-target" id="theme-btn" title="Toggle Dark Mode">
+        🌙
+    </div>
 
     <!-- תפריט המבורגר קבוע -->
     <div class="hamburger hover-target" id="hamburger-btn">
@@ -508,7 +540,6 @@
         <div class="hamburger-line"></div>
     </div>
 
-    <!-- תפריט מסך מלא -->
     <nav class="fullscreen-nav" id="full-nav">
         <a href="#about" class="nav-link hover-target">About Me</a>
         <a href="#projects" class="nav-link hover-target">Projects</a>
@@ -516,13 +547,10 @@
     </nav>
 
     <div class="container">
-        <!-- אזור פתיחה (Hero) -->
         <section class="hero" id="about">
             <h1>LITAL BAMNULKER</h1>
             
-            <!-- תמונת הבאנר המעודכנת (ללא רקע, מושלמת ל-PNG שקוף) -->
             <div class="hero-image-banner hover-target">
-                <!-- נתיב לתמונת הפיקסל ארט השקופה בתיקיית images -->
                 <img src="images/hero-banner.png" alt="Lital Bamnulker Banner" onerror="this.src='https://placehold.co/800x300/transparent/888?text=Hero+Banner+PNG'">
             </div>
 
@@ -534,7 +562,6 @@
                 Passionate about games, pixel art, and creating unique web experiences.
             </p>
 
-            <!-- קישורים לרשתות חברתיות -->
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/lital-bamnulker/?skipRedirect=true" target="_blank" class="hover-target">LinkedIn</a>
                 <a href="https://www.youtube.com/@misslittlegame" target="_blank" class="hover-target">YouTube</a>
@@ -542,12 +569,10 @@
             </div>
         </section>
 
-        <!-- גריד פרויקטים (Featured Work) - כעת כחלק מה-container כדי לשמור על יישור -->
         <section id="projects">
             <h2 class="section-title">FEATURED WORK</h2>
             <div class="featured-grid">
                 
-                <!-- כרטיס פרויקט 1 -->
                 <a href="https://lironzis17.itch.io/rain-wall" target="_blank" class="project-card hover-target">
                     <img src="images/rain-wall.png" alt="Rain Wall" class="project-image" onerror="this.src='https://placehold.co/500x500/e0f7fa/006064?text=Rain+Wall'">
                     <div class="project-info">
@@ -556,16 +581,14 @@
                     </div>
                 </a>
 
-                <!-- כרטיס פרויקט 2 -->
                 <a href="https://misslittle.itch.io/the-luggage-we-carry" target="_blank" class="project-card hover-target">
-                    <img src="images/the-luggage.png" alt="The Luggage We Carry" class="project-image" onerror="this.src='https://placehold.co/500x500/fff3e0/e65100?text=The+Luggage'">
+                    <img src="images/the-luggage.jpg" alt="The Luggage We Carry" class="project-image" onerror="this.src='https://placehold.co/500x500/fff3e0/e65100?text=The+Luggage'">
                     <div class="project-info">
                         <h3>The Luggage We Carry</h3>
                         <p>Narrative / Illustration</p>
                     </div>
                 </a>
 
-                <!-- כרטיס פרויקט 3 -->
                 <a href="https://misslittle.itch.io/froggy-leap" target="_blank" class="project-card hover-target">
                     <img src="images/froggy-leap.png" alt="Froggy Leap" class="project-image" onerror="this.src='https://placehold.co/500x500/e8f5e9/1b5e20?text=Froggy+Leap'">
                     <div class="project-info">
@@ -574,7 +597,6 @@
                     </div>
                 </a>
 
-                <!-- כרטיס פרויקט 4 (Dice Up!) -->
                 <a href="https://misslittle.itch.io/dice-up" target="_blank" class="project-card hover-target">
                     <img src="images/dice-up.png" alt="Dice Up!" class="project-image" onerror="this.src='https://placehold.co/500x500/e3f2fd/1565c0?text=Dice+Up!'">
                     <div class="project-info">
@@ -583,7 +605,6 @@
                     </div>
                 </a>
 
-                <!-- כרטיס פרויקט 5 -->
                 <a href="https://misslittle.itch.io/" target="_blank" class="project-card hover-target">
                     <div style="width: 100%; height: 100%; background: #ede7f6; position: absolute; top:0; left:0; display:flex; align-items:center; justify-content:center; font-family:'Oswald'; color:#4a148c; font-size: 2rem;">
                         [ Upcoming ]
@@ -598,11 +619,9 @@
         </section>
     </div>
 
-    <!-- פרויקטים נוספים וסקיצות (More Projects) -->
     <section class="more-projects">
         <h2 class="section-title">MORE PROJECTS</h2>
         <div class="grid-container">
-            <!-- לחיצה על התמונה מפעילה את הפופאפ ומציגה את מה שנמצא ב- data-img -->
             <div class="grid-item hover-target popup-trigger" data-img="images/sketch-01.jpg">
                 <img src="images/sketch-01.jpg" alt="Sketch 01" onerror="this.src='https://placehold.co/500x500/e9ecef/888?text=Sketch+01'">
             </div>
@@ -624,11 +643,9 @@
         </div>
     </section>
 
-    <!-- אזור קורות חיים (CV) המעוצב בתוך הדף -->
     <section class="cv-section" id="cv">
         <h2 class="section-title">RESUME & SKILLS</h2>
         <div class="cv-grid">
-            <!-- עמודת השכלה -->
             <div class="cv-column">
                 <h3 class="oswald">EDUCATION</h3>
                 <div class="cv-item hover-target">
@@ -643,7 +660,6 @@
                 </div>
             </div>
 
-            <!-- עמודת ניסיון -->
             <div class="cv-column">
                 <h3 class="oswald">EXPERIENCE</h3>
                 <div class="cv-item hover-target">
@@ -659,7 +675,6 @@
             </div>
         </div>
 
-        <!-- עמודת תוכנות וכישורים -->
         <div class="cv-software-section">
             <h3 class="oswald" style="font-size: 2rem; margin-bottom: 20px; border-bottom: 3px solid var(--text-color); padding-bottom: 10px; display: inline-block;">SOFTWARE</h3>
             <div class="skills-list hover-target">
@@ -675,29 +690,24 @@
         </div>
     </section>
 
-    <!-- פוטר / צור קשר -->
     <footer>
         <h2>WHAT SHOULD BE MY NEXT PROJECT?</h2>
         <a href="mailto:litalbamnulker@gmail.com" class="email-link hover-target">LITALBAMNULKER@GMAIL.COM</a>
         
-        <!-- קישורים לרשתות חברתיות בפוטר -->
         <div class="social-links" style="margin-top: 10px;">
             <a href="https://www.linkedin.com/in/lital-bamnulker/?skipRedirect=true" target="_blank" class="hover-target">LinkedIn</a>
             <a href="https://www.youtube.com/@misslittlegame" target="_blank" class="hover-target">YouTube</a>
             <a href="https://www.behance.net/litalbamnulker1" target="_blank" class="hover-target">Behance</a>
         </div>
-
     </footer>
 
-    <!-- המודל (פופאפ) של התמונות -->
     <div id="imageModal" class="modal hover-target">
         <span class="close-modal hover-target" id="closeModal">&times;</span>
         <img class="modal-content" id="modalImg">
     </div>
 
-    <!-- JavaScript לאינטראקציות (התפריט, העכבר, והפופאפים) -->
     <script>
-        // 1. לוגיקה עבור סמן העכבר המותאם אישית
+        // לוגיקה עבור סמן העכבר המותאם אישית
         const cursor = document.getElementById('cursor');
         const hoverTargets = document.querySelectorAll('.hover-target');
 
@@ -706,17 +716,35 @@
             cursor.style.top = e.clientY + 'px';
         });
 
-        // הגדלת הסמן כאשר עוברים מעל אלמנטים לחיצים
         hoverTargets.forEach(target => {
-            target.addEventListener('mouseenter', () => {
-                cursor.classList.add('cursor-hover');
-            });
-            target.addEventListener('mouseleave', () => {
-                cursor.classList.remove('cursor-hover');
-            });
+            target.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            target.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
         });
 
-        // 2. לוגיקה של תפריט ההמבורגר (פתיחה וסגירה)
+        // לוגיקה למצב חשוך (Dark Mode)
+        const themeBtn = document.getElementById('theme-btn');
+        
+        // בדיקה אם המשתמש כבר בחר במצב חשוך בעבר (שמירה ב-LocalStorage)
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeBtn.textContent = '☀️';
+        } else {
+            themeBtn.textContent = '🌙';
+        }
+
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            // עדכון הזיכרון של הדפדפן בהתאם למצב
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeBtn.textContent = '☀️';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeBtn.textContent = '🌙';
+            }
+        });
+
+        // לוגיקה של תפריט ההמבורגר
         const hamburgerBtn = document.getElementById('hamburger-btn');
         const fullNav = document.getElementById('full-nav');
         const navLinks = document.querySelectorAll('.nav-link');
@@ -726,7 +754,6 @@
             fullNav.classList.toggle('active');
         });
 
-        // סגירת התפריט בלחיצה על לינק
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 hamburgerBtn.classList.remove('active');
@@ -734,7 +761,7 @@
             });
         });
 
-        // 3. לוגיקה של הפופאפ (Modal) עבור פרויקטים נוספים (הסקיצות)
+        // לוגיקה של הפופאפ (Modal)
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImg');
         const closeModal = document.getElementById('closeModal');
@@ -743,17 +770,14 @@
         popupTriggers.forEach(trigger => {
             trigger.addEventListener('click', () => {
                 modal.style.display = 'flex';
-                // לוקח את התמונה ממאפיין ה-data-img כדי להציג אותה בגדול
                 modalImg.src = trigger.getAttribute('data-img');
             });
         });
 
-        // סגירת הפופאפ בלחיצה על ה-X
         closeModal.addEventListener('click', () => {
             modal.style.display = 'none';
         });
 
-        // סגירת הפופאפ גם בלחיצה מחוץ לתמונה (על הרקע הכהה)
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.style.display = 'none';
